@@ -16,6 +16,18 @@
     provides="bika.lims.interfaces.IIdServerVariables"
     factory=".idserver.IDServerVariablesAdapter" />
 
+  <!-- Adapter that returns AnalysisRequestFromShipment type -->
+  <adapter
+    for="bika.lims.interfaces.IAnalysisRequest"
+    provides="bika.lims.interfaces.IIdServerTypeID"
+    factory=".idserver.IDServerSampleTypeIDAdapter" />
+
+  <!-- Adapter that returns additional variables for ID server -->
+  <adapter
+    for="bika.lims.interfaces.IAnalysisRequest"
+    provides="bika.lims.interfaces.IIdServerVariables"
+    factory=".idserver.IDServerSampleVariablesAdapter" />
+
   <!-- Default value for OutboundShipment field in Add Sample form -->
   <adapter
     for="*"

@@ -131,7 +131,7 @@ Additional wildcard for incoming samples
 
 The `lab_code` wildcard is also available for Samples that are created
 automatically as per inbound sample shipments reception. The value of the
-variable is the laboratory code of the referring laboratory. For thist to be
+variable is the laboratory code of the referring laboratory. For this to be
 possible, a new idserver-specific type id exists: `AnalysisRequestFromShipment`
 
 Update the formatting configuration for this "virtual" type:

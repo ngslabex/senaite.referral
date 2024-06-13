@@ -20,6 +20,7 @@
 
 from bika.lims import api
 from bika.lims.interfaces import IIdServerVariables
+from senaite.core.interfaces import IIdServerTypeID
 from zope.interface import implementer
 
 
@@ -40,3 +41,39 @@ class IDServerVariablesAdapter(object):
             "lab_code": lab.getCode(),
         }
         return variables
+
+
+@implementer(IIdServerVariables)
+class IDServerSampleVariablesAdapter(object):
+    """An adapter for the generation of Variables for ID Server
+    """
+
+    def __init__(self, context):
+        self.context = context
+
+    def get_variables(self, **kw):
+        """Returns additional variables for ID Server depending on the type of
+        the current context
+        """
+        shipment = self.context.getInboundShipment()
+        if not shipment:
+            return {}
+
+        lab = shipment.getReferringLaboratory()
+        return {
+            "lab_code": lab.getCode()
+        }
+
+
+@implementer(IIdServerTypeID)
+class IDServerSampleTypeIDAdapter(object):
+    """An adapter that returns AnalysisRequestFromShipment type
+    """
+
+    def __init__(self, context):
+        self.context = context
+
+    def get_type_id(self, **kw):
+        if self.context.hasInboundShipment():
+            return "AnalysisRequestFromShipment"
+        return None
