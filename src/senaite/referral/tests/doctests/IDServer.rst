@@ -175,3 +175,45 @@ A new "regular" sample has been created, but with a custom ID:
     >>> sample = shipment.getSamples()[0]
     >>> api.get_id(sample)
     'EXT2-SHIP-01'
+
+However, if no specific portal type has been defined in ID server for samples
+from shipments, the system fallback to the default formatting for the
+portal type `AnalysisRequest`.
+
+Remove the formatting configuration for the "virtual" type:
+
+    >>> bs = portal.bika_setup
+    >>> records = []
+    >>> for rec in bs.getIDFormatting():
+    ...     if rec["portal_type"] != "AnalysisRequestFromShipment":
+    ...         records.append(rec)
+    >>> bs.setIDFormatting(list(records))
+
+Manually create an inbound shipment:
+
+    >>> lab = filter(lambda lab: lab.code == "EXT2", labs)[0]
+    >>> client = filter(lambda cl: cl.getClientID() == "HH", clients)[0]
+    >>> values = {
+    ...     "referring_laboratory": api.get_uid(lab),
+    ...     "referring_client": api.get_uid(client),
+    ...     "comments": "Test inbound sample shipment 2",
+    ...     "dispatched_datetime": datetime.now() - timedelta(days=2)
+    ... }
+    >>> shipment = api.create(lab, "InboundSampleShipment", **values)
+
+Create an `InboundSample` object and receive:
+
+    >>> values = {
+    ...     "referring_id": "000002",
+    ...     "date_sampled": datetime.now() - timedelta(days=5),
+    ...     "sample_type": "Water",
+    ...     "analyses": ["Cu", "Fe"],
+    ... }
+    >>> inbound_sample = api.create(shipment, "InboundSample", **values)
+    >>> success = do_action_for(inbound_sample, "receive_inbound_sample")
+
+A new "regular" sample has been created with no special ID:
+
+    >>> sample = shipment.getSamples()[0]
+    >>> api.get_id(sample)
+    'W-0001'

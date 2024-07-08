@@ -24,6 +24,9 @@ from senaite.core.interfaces import IIdServerTypeID
 from zope.interface import implementer
 
 
+SAMPLE_FROM_SHIPMENT_ID = "AnalysisRequestFromShipment"
+
+
 @implementer(IIdServerVariables)
 class IDServerVariablesAdapter(object):
     """An adapter for the generation of Variables for ID Server
@@ -73,7 +76,17 @@ class IDServerSampleTypeIDAdapter(object):
     def __init__(self, context):
         self.context = context
 
+    def has_custom_type_registered(self):
+        # get the ID formatting config
+        config_map = api.get_bika_setup().getIDFormatting()
+        for config in config_map:
+            portal_type = config["portal_type"]
+            if portal_type.lower() == SAMPLE_FROM_SHIPMENT_ID.lower():
+                return True
+        return False
+
     def get_type_id(self, **kw):
         if self.context.hasInboundShipment():
-            return "AnalysisRequestFromShipment"
+            if self.has_custom_type_registered():
+                return SAMPLE_FROM_SHIPMENT_ID
         return None
