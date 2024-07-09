@@ -77,10 +77,13 @@ class IDServerSampleTypeIDAdapter(object):
         self.context = context
 
     def has_custom_type_registered(self):
-        # get the ID formatting config
-        config_map = api.get_bika_setup().getIDFormatting()
-        for config in config_map:
-            portal_type = config["portal_type"]
+        """Returns whether an entry for AnalysisRequestFromShipment portal
+        type exists in ID server formatting config
+        """
+        bs = api.get_bika_setup()
+        formatting = bs.getIDFormatting()
+        for config in formatting:
+            portal_type = config.get("portal_type", "")
             if portal_type.lower() == SAMPLE_FROM_SHIPMENT_ID.lower():
                 return True
         return False
