@@ -81,9 +81,13 @@ def create_sample(inbound_sample):
     if not sample_type_uid:
         raise ValueError("No sample type found for '{}'".format(sample_type))
 
+    # Resolve the service uids that match with the requested analyses
     keywords = inbound_sample.getAnalyses() or []
     services_uids = map(lambda key: services.get(key), keywords)
     services_uids = filter(api.is_uid, services_uids)
+
+    # Update the inbound sample with the service uids
+    inbound_sample.setServices(services_uids)
 
     values = {
         "Client": api.get_uid(client),

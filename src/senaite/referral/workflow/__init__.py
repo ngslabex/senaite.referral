@@ -104,11 +104,9 @@ def restore_referred_sample(sample):
     sample.setOutboundShipment(None)
 
     # Transition the sample and analyses to the state before sample was shipped
-    status = api.get_review_status(sample)
-    if status in ["shipped", "rejected_at_reference"]:
-        prev = get_previous_status(sample, before="shipped",
-                                   default="sample_received")
-        changeWorkflowState(sample, SAMPLE_WORKFLOW, prev)
+    previous = get_previous_status(sample, before="shipped")
+    if previous:
+        changeWorkflowState(sample, SAMPLE_WORKFLOW, previous)
 
     # Restore status of referred analyses
     wf_id = ANALYSIS_WORKFLOW

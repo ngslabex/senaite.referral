@@ -4,6 +4,22 @@
     i18n_domain="senaite.referral">
 
   <genericsetup:upgradeStep
+      title="SENAITE.REFERRAL 1.0.0: Store service uids in inbound sample"
+      description="Store service uids in inbound sample"
+      source="2004"
+      destination="2005"
+      handler=".v02_00_000.setup_inbound_services"
+      profile="senaite.referral:default"/>
+
+  <genericsetup:upgradeStep
+      title="SENAITE.REFERRAL 1.0.0: New transition: 'Receive at reference'"
+      description="Added the transition 'receive_at_reference'"
+      source="2003"
+      destination="2004"
+      handler=".v02_00_000.setup_receive_at_reference"
+      profile="senaite.referral:default"/>
+
+  <genericsetup:upgradeStep
       title="SENAITE.REFERRAL 2.0.0: Invalidate at reference laboratory"
       description="Added the transition 'invalidate_at_reference'"
       source="2002"
