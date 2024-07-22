@@ -81,6 +81,40 @@ class IReferralControlPanel(Interface):
         required=0,
     )
 
+    notify_all_analyses = schema.Bool(
+        title=_(
+            u"label_referral_notify_all_analyses",
+            u"Notify all analyses to referring laboratory"
+        ),
+        description=_(
+            u"description_referral_notify_all_analyses",
+            u"If selected, the system will send all analyses back to the "
+            u"referring laboratory for results update after verification, "
+            u"those that weren't requested through the shipment included. "
+            u"Otherwise, the system will send notifications back only for "
+            u"those analyses that were initially requested."
+        ),
+        default=False,
+        required=False,
+    )
+
+    create_reference_analyses = schema.Bool(
+        title=_(
+            u"label_referral_create_reference_analyses",
+            u"Create analyses from reference laboratory"
+        ),
+        description=_(
+            u"description_referral_create_reference_analyses",
+            u"If selected, the system will create missing analyses in the "
+            u"referring laboratory when receiving a notification for results "
+            u"update from the reference laboratory. Otherwise, the system "
+            u"will skip results for analyses that do not exist in the "
+            u"referred sample."
+        ),
+        default=False,
+        required=False,
+    )
+
 
 class ReferralControlPanelForm(RegistryEditForm):
     schema = IReferralControlPanel

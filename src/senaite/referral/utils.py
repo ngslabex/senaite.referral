@@ -335,3 +335,19 @@ def search_sample_type(term, full_object=False):
     if uid and full_object:
         return api.get_object_by_uid(uid)
     return uid
+
+
+def get_notify_all_analyses():
+    """Returns whether the system has to send notifications for analyses that
+    weren't initially requested
+    """
+    key = "{}.notify_all_analyses".format(PRODUCT_NAME)
+    return api.get_registry_record(key, default=False)
+
+
+def get_create_reference_analyses():
+    """Returns whether the system has to create analyses if results are
+    notified by reference lab, but the sample does not have them
+    """
+    key = "{}.create_reference_analyses".format(PRODUCT_NAME)
+    return api.get_registry_record(key, default=False)
