@@ -260,3 +260,11 @@ def setup_inbound_services(tool):
         obj._p_deactivate()
 
     logger.info("Setup inbound services [DONE]")
+
+
+def setup_results_notification(tool):
+    logger.info("Setup results notification settings ...")
+    portal = tool.aq_inner.aq_parent
+    setup = portal.portal_setup
+    setup.runImportStepFromProfile(profile, "plone.app.registry")
+    logger.info("Setup results notification settings [DONE]")
