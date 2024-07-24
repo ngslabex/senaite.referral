@@ -147,8 +147,10 @@ class SampleManageAnalysesListingAdapter(object):
         referring laboratory, if any
         """
         if self._referring_services is None:
+            self._referring_services = []
             inbound_sample = self.context.getInboundSample()
-            self._referring_services = inbound_sample.getRawServices()
+            if inbound_sample:
+                self._referring_services = inbound_sample.getRawServices()
         return self._referring_services
 
     @check_installed(None)
