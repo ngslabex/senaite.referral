@@ -41,9 +41,16 @@ class SampleGuardAdapter(BaseGuardAdapter):
         all analyses from the sample are in unassigned status
         """
         allowed = ["unassigned"]
-        analyses = self.context.getAnalyses(full_objects=True)
-        valid = map(lambda an: api.get_review_status(an) in allowed, analyses)
-        return all(valid)
+        detached = ["cancelled", "rejected", "retracted"]
+        for analysis in self.context.getAnalyses(full_objects=True):
+            status = api.get_review_status(analysis)
+            if status in detached:
+                # skip analyses in detached status
+                continue
+            if status not in allowed:
+                # all analyses must be in "unassigned" status
+                return False
+        return True
 
     def guard_reject_at_reference(self):
         """Returns true if the sample can be transitioned to rejected at
