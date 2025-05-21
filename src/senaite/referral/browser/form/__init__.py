@@ -15,23 +15,5 @@
 # this program; if not, write to the Free Software Foundation, Inc., 51
 # Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Copyright 2021-2022 by it's authors.
+# Copyright 2021-2025 by it's authors.
 # Some rights reserved, see README and LICENSE.
-
-PRODUCT_NAME = "senaite.referral"
-
-PROFILE_ID = "profile-{}:default".format(PRODUCT_NAME)
-UNINSTALL_ID = "profile-{}:uninstall".format(PRODUCT_NAME)
-
-REFERRAL_STORAGE = "senaite.referral.storage"
-
-PRODUCT_TYPES = (
-    "ExternalLaboratory",
-    "ExternalLaboratoryFolder",
-)
-
-AJAX_TRANSITIONS = (
-    # Transitions to process async via ajax
-    "receive_inbound_sample",
-    "reject_inbound_sample",
-)
